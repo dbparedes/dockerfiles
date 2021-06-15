@@ -1,13 +1,14 @@
-ARG PYTORCH="1.2"
-ARG CUDA="10.0"
-ARG CUDNN="7"
+FROM nvidia/cuda:10.0-base
 
-FROM pytorch/pytorch:${PYTORCH}-cuda${CUDA}-cudnn${CUDNN}-runtime
-
-RUN apt-get update && apt-get install -y tree vim htop libglib2.0-0 libsm6 libxrender-dev libxext6 \
- && apt-get clean \
+RUN apt-get update && apt-get install -y wget unzip curl bzip2 git tree vim htop && apt-get clean \
  && rm -rf /var/lib/apt/lists/*
 
-# latest visdom has fonts missing, see here: https://github.com/fossasia/visdom/issues/537
-RUN pip install torch==1.4.0+cu100 torchvision==0.5.0+cu100 -f https://download.pytorch.org/whl/torch_stable.html
+RUN curl -LO http://repo.continuum.io/miniconda/Miniconda-latest-Linux-x86_64.sh
+RUN bash Miniconda-latest-Linux-x86_64.sh -p /miniconda -b
+RUN rm Miniconda-latest-Linux-x86_64.sh
+
+ENV PATH=/miniconda/bin:${PATH}
+RUN conda update -y conda
+
+RUN conda install -y pytorch=1.4.0 torchvision cudatoolkit=10.0 -c pytorch
 RUN pip install dominate==2.4.0 visdom==0.1.8.6
