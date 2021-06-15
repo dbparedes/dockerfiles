@@ -11,4 +11,4 @@ ENV PATH=/miniconda/bin:${PATH}
 RUN conda update -y conda
 
 RUN conda install -y pytorch=1.4.0 torchvision cudatoolkit=10.0 -c pytorch
-RUN pip install dominate==2.4.0 visdom==0.1.8.6
+RUN conda install -y dominate=2.4.0 visdom=0.1.8.3 -c conda-forge
