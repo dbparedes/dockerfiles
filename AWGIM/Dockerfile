@@ -1,5 +1,9 @@
 FROM tensorflow/tensorflow:1.12.0-gpu-py3
 
+RUN apt-get update && apt-get install -y wget tree vim htop \
+ && apt-get clean \
+ && rm -rf /var/lib/apt/lists/*
+
 # Install bazel
 ARG BAZEL_VERSION=3.7.2
 RUN mkdir /bazel && \
@@ -10,7 +14,3 @@ RUN mkdir /bazel && \
     rm -f /bazel/installer.sh
 
 RUN pip install tensorflow-probability
-
-RUN apt-get update && apt-get install -y tree vim htop \
- && apt-get clean \
- && rm -rf /var/lib/apt/lists/*
