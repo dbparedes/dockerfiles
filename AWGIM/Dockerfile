@@ -13,4 +13,4 @@ RUN mkdir /bazel && \
     /bazel/installer.sh && \
     rm -f /bazel/installer.sh
 
-RUN pip install tensorflow-probability
+RUN pip install tensorflow-probability==0.5.0
